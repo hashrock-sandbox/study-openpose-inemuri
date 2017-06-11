@@ -1,0 +1,23 @@
+.center {
+  fill: red;
+}
+
+.ear {
+  fill: white;
+}
+
+.face {
+  fill: rgba(200, 200, 200, 0.5)
+}
+
+svg {
+  background: white;
+}
+
+body {
+  background: #999;
+}
+
+text {
+  fill: pink;
+}
