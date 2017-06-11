@@ -5,36 +5,74 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>居眠りデモ</title>
+  <style>
+    .center{
+      fill: red;
+    }
+    .ear{
+      fill: white;
+    }
+    .face{
+      fill: rgba(200, 200, 200, 0.5)
+    }
+    svg{
+      background: white;
+    }
+    body{
+      background: #999;
+    }
+    text{
+      fill: pink;
+    }
+  </style>
 </head>
 <body>
   <div id="app">
-
-
     {{msg}}
+    <!--
     <div class="result">
       <div class="people" v-for="item in result">
         {{item}}
       </div>
-
     </div>
+    -->
+
+<svg width="1000" height="1000">
+  <image xlink:href="sleep.jpeg" x="0" y="0" height="575px" width="1024px"/>
+  <g v-for="item in result">
+    <circle class="face" :cx="item.center.x" :cy="item.center.y" r="20"></circle>
+    <circle class="center" :cx="item.center.x" :cy="item.center.y" r="4"></circle>
+    <circle class="ear" :cx="item.rear.x" :cy="item.rear.y" r="2"></circle>
+    <circle class="ear" :cx="item.lear.x" :cy="item.lear.y" r="2"></circle>
+    <text class="info" :x="item.center.x - 40" :y="item.center.y - 40">{{item.state}}</text>
+  </g>          
+
+</svg>
+
 
   </div>
   <script src="https://unpkg.com/vue"></script>
   <script>
     function toParts(item){
+      var eardist = item[3*15] - item[3*16]
+      var yheikin = (item[3*15 + 1] + item[3*16 + 1] )/ 2
+      var utumuki = item[1] - yheikin
+      var ratio = 1.61
+
       return {
         center: {
-          x: item[0],
-          y: item[1]
+          x: item[0] * ratio,
+          y: item[1] * ratio
         },
         rear: {
-          x: item[3*15],
-          y: item[3*15 + 1],
+          x: item[3*15] * ratio,
+          y: item[3*15 + 1] * ratio,
         },
         lear: {
-          x: item[3*16],
-          y: item[3*16 + 1],
-        }
+          x: item[3*16] * ratio,
+          y: item[3*16 + 1] * ratio,
+        },
+        state: utumuki > 5 ? "ねてる？" : ""
       }
     }
 
