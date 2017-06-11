@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>居眠りデモ</title>
+</head>
+<body>
+  <div id="app">
+
+
+    {{msg}}
+    <div class="result">
+      <div class="people" v-for="item in result">
+        {{item}}
+      </div>
+
+    </div>
+
+  </div>
+  <script src="https://unpkg.com/vue"></script>
+  <script>
+    function toParts(item){
+      return {
+        center: {
+          x: item[0],
+          y: item[1]
+        },
+        rear: {
+          x: item[3*15],
+          y: item[3*15 + 1],
+        },
+        lear: {
+          x: item[3*16],
+          y: item[3*16 + 1],
+        }
+      }
+    }
+
+
+    new Vue({
+      el: "#app",
+      data: {
+        msg: "test",
+        result: [
+
+        ]
+      },
+      mounted: function(){
+        var url = "./sleep.json"
+        fetch(url).then((response)=> {
+          return response.json();
+        }).then((json)=> {
+          this.result = json.people.map((item)=>{
+            return toParts(item.body_parts)
+          })
+          //耳の距離を取る
+          //鼻のY座標を取る
+        });
+      }
+    })
+  </script>
+</body>
+</html>
